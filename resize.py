@@ -4,10 +4,11 @@ import os.path
 # Make a function to resize and image in pillow
 from PIL import Image
 
-def resize_img(img: Image, x: float, y: float):
-    resized = img.resize((x, y))
-    return resized
+CM_PIXEL = 37.7952755906
 
+def cm_to_pix(cm: float):
+    return cm * CM_PIXEL
+    
 # Add argument x and y which are floats & required.
 parser = ArgumentParser(description='hello!')
 parser.add_argument("x", type=float, help="x value", required=True)
@@ -25,6 +26,9 @@ if os.path.isfile(args.o):
         exit(1)
     else:
         print('Overriding file.')
+
+args.x = cm_to_pix(args.x)
+args.y = cm_to_pix(args.y)
 
 i = Image.open(args.f)
 ii = i.resize((args.x, args.y))
